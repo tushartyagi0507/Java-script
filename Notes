@@ -1,0 +1,375 @@
+Javscript Notes on top of Namaste JS and other notes :
+
+# CSR and SSR 
+# cookies 
+# web URL 
+# HTTP and REST APIs 
+# API 
+# OOPS 
+# write, alert, prompt 
+
+
+#                                   REST APIs :
+
+
+**REST API** (Representational State Transfer Application Programming Interface) is a set of rules and conventions for building and interacting with web services. It allows different applications to communicate with each other over the internet in a standardized way.
+
+* What is REST?
+
+REST is an architectural style for designing networked applications. It relies on a stateless, client-server, cacheable communication 
+protocol -- the HTTP protocol. REST is a way to provide interoperability between computer systems on the internet.
+
+**Core Concepts of REST**
+
+1. **Client-Server Architecture**: The client (e.g., web browser) and server (e.g., web service) are distinct entities. The server provides resources, and the client consumes them.
+
+2. **Stateless**: Each request from the client to the server must contain all the information the server needs to fulfill that request. The server does not store any state about the client session. So the server has to be informed everything about the request
+and the client that is making that request as it does not keep any prior information
+
+3. **Cacheable**: Responses from the server must define themselves as cacheable or non-cacheable. If cacheable, the client can reuse the response data for subsequent requests.
+
+4. **Uniform Interface**: A consistent interface across the system, allowing developers to interact with the application in a predictable manner. This includes standard methods like GET, POST, PUT, DELETE.
+
+5. **Layered System**: The architecture can be composed of hierarchical layers by constraining component behavior such that each component cannot "see" beyond the immediate layer with which they are interacting.
+
+6. **Code on Demand (Optional)**: Servers can extend client functionality by transferring executable code (e.g., JavaScript).
+
+## **Key Components of REST API**
+
+### **1. Resources**
+
+- **Definition**: Resources are the key abstractions of data in REST. They are represented by a unique URL.
+- **Examples**: Users, Orders, Products.
+
+### **2. Resource Identifiers (URIs)**
+
+- **Definition**: Each resource is identified by a URI (Uniform Resource Identifier). URIs are the web addresses used to access resources.
+- **Example**: 
+  - `https://api.example.com/users/123`
+  - `https://api.example.com/orders/456`
+
+### **3. HTTP Methods**
+
+- **GET**: Retrieves data from the server.
+  - **Example**: `GET https://api.example.com/users` retrieves a list of users.
+- **POST**: Submits new data to the server.
+  - **Example**: `POST https://api.example.com/users` creates a new user.
+- **PUT**: Updates existing data on the server.
+  - **Example**: `PUT https://api.example.com/users/123` updates the user with ID 123.
+- **DELETE**: Deletes data from the server.
+  - **Example**: `DELETE https://api.example.com/users/123` deletes the user with ID 123.
+- **PATCH**: Partially updates existing data on the server.
+  - **Example**: `PATCH https://api.example.com/users/123` updates part of the user with ID 123.
+
+### **4. HTTP Status Codes**
+
+- **200 OK**: The request was successful.
+- **201 Created**: The request was successful, and a new resource was created.
+- **204 No Content**: The request was successful, but there is no content to send in the response.
+- **400 Bad Request**: The request was invalid or cannot be otherwise served.
+- **401 Unauthorized**: Authentication is required and has failed or has not yet been provided.
+- **403 Forbidden**: The server understands the request but refuses to authorize it.
+- **404 Not Found**: The requested resource could not be found.
+- **500 Internal Server Error**: A generic error message for unexpected conditions.
+
+### **5. Headers**
+
+- **Content-Type**: Indicates the media type of the resource (e.g., `application/json`).
+- **Authorization**: Used for sending authentication credentials to the server.
+- **Accept**: Indicates the media types that the client is willing to receive.
+
+### **6. Payload**
+
+- **Definition**: The body of the request or response containing the actual data.
+- **Formats**: Typically JSON or XML.
+  - **Example**: JSON payload for creating a user:
+    ```json
+    {
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    }
+    ```
+
+## **How REST API Works: An Example**
+
+Consider a web application that allows users to manage a list of tasks. The server exposes a REST API to interact with the tasks.
+
+### **Example Scenarios**
+
+1. **Retrieve a List of Tasks**
+   - **Request**: `GET /tasks`
+   - **Response**:
+     ```json
+     [
+       {"id": 1, "name": "Task 1", "completed": false},
+       {"id": 2, "name": "Task 2", "completed": true}
+     ]
+     ```
+
+2. **Retrieve a Single Task**
+   - **Request**: `GET /tasks/1`
+   - **Response**:
+     ```json
+     {"id": 1, "name": "Task 1", "completed": false}
+     ```
+
+3. **Create a New Task**
+   - **Request**: `POST /tasks`
+   - **Payload**:
+     ```json
+     {"name": "Task 3"}
+     ```
+   - **Response**:
+     ```json
+     {"id": 3, "name": "Task 3", "completed": false}
+     ```
+
+4. **Update an Existing Task**
+   - **Request**: `PUT /tasks/1`
+   - **Payload**:
+     ```json
+     {"name": "Updated Task 1", "completed": true}
+     ```
+   - **Response**:
+     ```json
+     {"id": 1, "name": "Updated Task 1", "completed": true}
+     ```
+
+5. **Delete a Task**
+   - **Request**: `DELETE /tasks/1`
+   - **Response**: No content (204 No Content)
+
+### **Visualizing REST API Interaction**
+
+Here's a simplified diagram to illustrate how a REST API might handle requests and responses:
+
+![REST API Diagram](https://www.howtogeek.com/wp-content/uploads/2020/09/how-rest-works-header.png?height=200p&trim=2,2,2,2)
+
+## **Best Practices for Designing REST APIs**
+
+### **1. Use Nouns for Resource URIs**
+
+- Use nouns instead of verbs in URIs.
+  - **Good**: `/products`
+  - **Bad**: `/getProducts`
+
+### **2. Use HTTP Methods Correctly**
+
+- Align HTTP methods with their intended operations.
+  - **GET**: Retrieve data
+  - **POST**: Create new data
+  - **PUT/PATCH**: Update existing data
+  - **DELETE**: Remove data
+
+### **3. Provide Filtering, Sorting, and Pagination**
+
+- Allow clients to filter, sort, and paginate data.
+  - **Example**: `/products?category=books&sort=price&limit=10`
+
+### **4. Use Consistent Naming Conventions**
+
+- Use a consistent naming strategy for URIs, parameters, and responses.
+
+### **5. Version Your API**
+
+- Use versioning to manage changes without breaking existing clients.
+  - **Example**: `/v1/products`
+
+### **6. Use Hypermedia Links**
+
+- Include links in responses to related resources (HATEOAS principle).
+  - **Example**: Provide a link to `/products/123/reviews` in a product response.
+
+### **7. Provide Error Handling**
+
+- Use clear and consistent error messages and HTTP status codes.
+  - **Example**: Include an error message and code in 400 and 500 series responses.
+
+### **8. Secure Your API**
+
+- Implement authentication and authorization.
+- Use HTTPS to encrypt data in transit.
+- Validate and sanitize input to prevent attacks like SQL injection.
+
+## **Tools for Working with REST APIs**
+
+### **1. API Testing Tools**
+
+- **Postman**: A powerful API testing tool for designing, testing, and documenting APIs.
+- **Insomnia**: A modern REST client for testing and debugging APIs.
+
+### **2. API Documentation Tools**
+
+- **Swagger**: A suite of tools for designing, building, documenting, and consuming REST APIs.
+- **OpenAPI**: A specification for building APIs that is easy to understand and adopt.
+
+### **3. Development Tools**
+
+- **Axios**: A popular JavaScript library for making HTTP requests from the browser or Node.js.
+- **Fetch API**: A native JavaScript API for making network requests in web applications.
+
+### **4. Mocking Tools**
+
+- **Mockoon**: A tool for creating and managing mock APIs locally.
+- **JSON Server**: A full fake REST API with zero coding.
+
+## **Conclusion**
+
+REST API provides a robust framework for building web services that are scalable, stateless, and easy to interact with. As a front-end developer, understanding REST principles, best practices, and tools will empower you to build efficient, maintainable, and user-friendly web applications.
+
+
+   #                             Interpreted and Compiled languaged :
+
+Interpreted and compiled languages represent two different approaches to executing code, each with its own advantages and disadvantages. Here's a detailed breakdown of the differences between them:
+
+### Interpreted Language:
+1. **Execution Process**: Interpreted languages are executed line by line by an interpreter. The interpreter reads each line
+ of source code, translates it into machine code or bytecode, and then executes it immediately.
+  
+2. **Portability**: Since interpreters are platform-specific, interpreted languages are generally more portable than compiled languages. You typically only need the interpreter installed on the target system to run the code.
+  
+3. **Development Speed**: Interpreted languages often offer faster development cycles as changes in code can be immediately
+ executed without the need for a separate compilation step.
+  
+4. **Runtime Overhead**: Interpreted languages tend to have higher runtime overhead because the interpreter must analyze and 
+execute the code on-the-fly, which can lead to slower execution compared to compiled languages.
+  
+5. **Debugging**: Debugging can be more straightforward in interpreted languages as errors are often reported in terms of the original source code.
+  
+6. **Examples**: Python, Ruby, JavaScript (in web browsers), Perl, PHP.
+
+### Compiled Language:
+1. **Compilation Process**: Compiled languages require a separate compilation step before execution. The source code is translated into machine code or intermediate code (bytecode) by a compiler. This resulting code is then executed directly by the hardware or 
+a virtual machine.
+  
+2. **Execution Speed**: Compiled languages typically offer faster execution speed because the code is pre-translated into machine code, optimizing performance.
+  
+3. **Portability**: Compiled languages often require platform-specific compilers, and the resulting binaries may not be easily portable across different platforms without recompilation.
+  
+4. **Development Speed**: Compilation adds an extra step to the development process, which can slow down iteration cycles, especially
+ in large projects.
+  
+5. **Debugging**: Debugging compiled code can be more challenging as errors are reported in terms of machine code or bytecode, which 
+may not directly correspond to the original source code. However, debugging tools can mitigate this challenge.
+  
+6. **Examples**: C, C++, Rust, Java (bytecode compiled to run on the JVM), Go.
+
+### Hybrid Approaches:
+Some languages, like Java and C#, use a hybrid approach. They are compiled into an intermediate bytecode, which is then executed by 
+a virtual machine (JVM for Java, CLR for C#). This allows for platform independence and optimization while maintaining some of the benefits of compilation.
+
+In summary, while interpreted languages offer faster development cycles and easier debugging, compiled languages generally provide better performance and optimization. The choice between them depends on factors such as project requirements, performance goals, and
+ development preferences.
+
+#         JavaScript: Interpretd and JIT :
+
+While JavaScript is traditionally considered an interpreted language, modern engines use a hybrid approach that involves both interpretation and JIT compilation to optimize performance dynamically. This makes it more
+ performant than purely interpreted languages but still flexible enough to execute directly without a separate 
+ compilation step.
+
+Diagram Overview
+Initial Interpretation
+
+Browser/engine reads the JavaScript source code.
+Parses into an AST. (Abstract Syntax Tree)
+
+  NOTE: AST: This tree represents the syntactical structure of the code. Each node in the tree corresponds to 
+  a construct occurring in the source code. For example, a for loop, a variable declaration, and a function 
+  call all become nodes in this tree.
+  
+
+
+Interprets the AST into bytecode.
+  NOTE: Bytecode: Once the AST is created, it is translated into intermediate bytecode. Bytecode is a low-level, platform-independent code that is not yet machine code but is more efficient to execute than directly interpreting the AST.
+Execution & Optimization
+
+Executes the bytecode.
+Identifies frequently executed code (hot code).
+Compiles hot code into machine code (JIT).
+Execution of Optimized Code
+
+Runs the compiled machine code directly, improving performance.
+
+
+In short:
+Execution Flow Summary
+Parsing: Source code → AST.
+Bytecode Generation: AST → Bytecode.
+Initial Execution: Interpret bytecode.
+Optimization: Identify hot code. (frequently used code )
+JIT Compilation: Bytecode → Machine code.
+Fast Execution: Run machine code for hot code.
+
+
+  #                                 Statically and Dynamically Typed languages 
+
+
+Statically : (Stricly typed)  > The variables have to have the data type before the compilation process and the declared variable 
+                                cannot take any other type of datatype in it Eg; C, C++ etc
+
+Dynamically : (Weakly or losely typed)  > The variables do not have be declared along with the datatype while coding and this can be taken care of by the interpretor at the runtime and in this variables can take any other type of datatype in it Eg; Javascript, python 
+
+
+ #                                  type attribute in the <script></script> tags :
+
+
+  * so by-default the type is "text/javascript" for HTML5 
+
+  * for the use of the import and the export we use type="module"
+
+
+# NOTES : 
+* The broswer has to make additional HTTP request to get the attached external JS file 
+* tyeof Null > Object 
+
+#                               Stack and Heap memory for the Primitive and non Primitive Datatypes 
+
+The primitive datatypes gets memory in Stck 
+non primitive datatypes gets memory in Heap 
+
+* let a = [1,2,3,4,5]
+const b = a;
+b[2] = "8"
+console.log(b)
+console.log(a)     Output > [1, 2, '8', 4, 5]  for both a and b as both are pointing to same reference 
+
+ *   Very Important: The non primitive datatypes like arrays or object they get space in the memory Heap 
+                     so when I am assigning const b =  a, we the variable b gets reference to the same memory space as 
+                     var 'a' and that is why when we are changing the value for b[2] it gets changes for variable a as well
+
+    
+    While in case of the primitive datatypes the variables get copy and new memory space so it would not change the original value 
+
+
+    let x = "Tushar"
+let y = x;
+y = "tyagi"
+console.table([x,y])       Output> x= Tushar and y = tyagi 
+
+
+#                       Datatypes conversions 
+
+const a = "124"
+console.log(typeof (Number(a)))   > Number()  => this is a method that changes the type of var to number datatype 
+
+output> number
+
+const a = "123avb"
+onsole.log(typeof (Number(a)))  => the typeof this will be number again however if you print the value that would be 
+ #Nan#
+
+
+ console.log("1"+ "2")  => 12
+ console.log("1" + 2)   => 12
+ console.log(1 + "2")   => 12
+ console.log(1 + 2)     => 3
+ console.log("1" + 2 + 2 )  => 122    if string comes first then it will be treated as string 
+ console.log(1 + 2 + "2" )  => 32    if number comes first then it will be treated as number, first 1+2 and then string
+
+
+ console.log(null > 0)     => false
+ console.log(null == 0)     => false
+ console.log(null => 0)     => true 
+
+ The comparison operators work differently than eqaulity check operator ( == ) since comparisons operators covert null
+ to a number that is 0 hence the results are they way they are. 
