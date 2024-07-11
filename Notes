@@ -373,3 +373,17 @@ onsole.log(typeof (Number(a)))  => the typeof this will be number again however 
 
  The comparison operators work differently than eqaulity check operator ( == ) since comparisons operators covert null
  to a number that is 0 hence the results are they way they are. 
+
+
+#                         DOM 
+
+Document object model 
+* Web API not a part of JS provided by broswer 
+* The HTML will we read by broswer 
+* DOM enables us to access the HTML code using JS 
+* DOM(Browser) makes the HTML code into a tree and makes a object called document and add this document in window object of the browser 
+
+
+* window object ## given to us by broswer and it is the global object and it is known to each element in the code it
+* each element in itself in an object 
+* we can use .querySelector and other methods on head or body directly after selecting those 
